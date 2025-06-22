@@ -1,0 +1,27 @@
+name: Daily Auto Commit
+
+on:
+  schedule:
+    # Runs at 08:45 UTC every day
+    - cron: '45 8 * * *'
+  workflow_dispatch:  # Enables manual trigger as well
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Make a change
+      run: |
+        echo "Daily update on $(date)" >> daily_log.txt
+
+    - name:  23f2001159@ds.study.iitm.ac.in
+      run: |
+        git config --global user.name "Auto Commit Bot"
+        git config --global user.email "23f2001159@ds.study.iitm.ac.in"
+        git add .
+        git commit -m "chore: daily update - $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+        git push
